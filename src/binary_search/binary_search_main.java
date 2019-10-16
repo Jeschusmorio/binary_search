@@ -4,37 +4,45 @@ import java.util.Random;
 public class binary_search_main {
 
 	public static void main(String[] args) {
-		for (int i = 0; i < menge.length; i++) {
-			menge[i] = i;
+		fillArray();
+		Arrays.sort(a);
+		int number = r.nextInt(a.length);
+		counter = 0;
+		System.out.println("Suche: " + number + " ------------");
+		if (search(number, 0, (a.length - 1))) {
+			System.out.println("Der Wert " + number + " ist in diesem Array vorhanden!");
 		}
-		for (int i = 0; i < menge.length; i++) {
-			suche(i);
+		else {
+			System.out.println("Der Wert " + number + " ist nicht in diesem Array vorhanden!");
+		}
+		System.out.println(counter+" Suchschritte");
+	}
+
+	static final int LENGTH = 100;
+	static int[] a = new int[LENGTH];
+	static Random r = new Random();
+	static int counter;
+	
+	public static void fillArray() {
+		for (int i = 0; i < a.length; i++) {
+			a[i] = r.nextInt(a.length);
 		}
 	}
-	
-	static int[] menge = new int[100];
-	
-	public static void suche (int suchzahl) {
-		System.out.println("suche "+suchzahl+" ---------------");
-		int anfang = 0;
-		int ende = menge.length - 1;
-		int zaehler = 0;
-		
-		while (anfang <= ende) {
-			zaehler++;
-			int halbe = anfang + (int)((ende - anfang) / 2);
-			System.out.println("suchschritt "+anfang+" "+ende+" "+halbe);
-			if (menge[halbe] == suchzahl) {
-				System.out.println("found");
-				break;
-			}
-			else if (suchzahl < menge[halbe]) {
-				ende = halbe - 1;
-			}
-			else {
-				anfang = halbe + 1;
-			}
+	public static boolean search(int number, int begin, int end) {
+		if (begin > end) {
+			return false;
 		}
-		System.out.println(zaehler);
+		counter++;
+		int half = (int)((begin + end) / 2);
+		System.out.println(counter + ". Suchschritt " + a[begin] + " " + a[end] + " " + a[half]);
+		if (number == a[half]) {
+			return true;
+		}
+		else if (number < a[half]){
+			return search(number, begin, (half - 1));
+		}
+		else {
+			return search(number, (half + 1), end);
+		}
 	}
 }
